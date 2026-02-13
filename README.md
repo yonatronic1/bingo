@@ -88,6 +88,53 @@ Sample payload:
 ### `GET /api/leads`
 Returns latest 100 leads.
 
+
+## Troubleshooting: Docker Desktop pipe error on Windows
+
+If `docker compose up -d` fails with an error like:
+
+```
+unable to get image 'postgres:16' ...
+open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified
+```
+
+Run this quick diagnostic:
+
+```bash
+./scripts/check-docker.sh
+```
+
+### Fix steps (Windows)
+1. Start **Docker Desktop** and wait for **Engine running**.
+2. Ensure Docker Desktop is using **Linux containers** (not Windows containers).
+3. Verify daemon access:
+
+```bash
+docker info
+```
+
+4. Retry:
+
+```bash
+docker compose up -d
+```
+
+### If Docker is unavailable: local PostgreSQL fallback
+You can still run this project without Docker:
+
+1. Install PostgreSQL locally (v14+).
+2. Create DB: `legendary_growth`.
+3. Run schema SQL from `infra/init.sql` (psql, pgAdmin desktop, or another SQL client).
+4. Configure `backend/.env` with local DB credentials.
+5. Start backend/frontend normally.
+
+Example (psql):
+
+```bash
+createdb -U postgres legendary_growth
+psql -U postgres -d legendary_growth -f infra/init.sql
+```
+
 ## Troubleshooting: confirm files are added to git
 
 If you suspect files were not added, run:

@@ -19,6 +19,7 @@ required_files=(
   "frontend/src/styles.css"
   "frontend/vite.config.js"
   "infra/init.sql"
+  "scripts/check-docker.sh"
 )
 
 missing=0
